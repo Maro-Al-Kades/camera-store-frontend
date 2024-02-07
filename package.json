@@ -1,5 +1,6 @@
 {
   "name": "camera-store",
+  "author": "Maro Asam",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,13 +10,22 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@stripe/react-stripe-js": "^2.4.0",
+    "@stripe/stripe-js": "^2.4.0",
+    "axios": "^1.6.7",
+    "next": "14.1.0",
+    "nextjs-toploader": "^1.6.6",
     "react": "^18",
     "react-dom": "^18",
-    "next": "14.1.0"
+    "react-icons": "^5.0.1",
+    "stripe": "13.2.0",
+    "swiper": "^11.0.5"
   },
   "devDependencies": {
+    "@types/react": "18.2.55",
     "autoprefixer": "^10.0.1",
     "postcss": "^8",
-    "tailwindcss": "^3.3.0"
+    "tailwindcss": "^3.3.0",
+    "typescript": "5.3.3"
   }
 }

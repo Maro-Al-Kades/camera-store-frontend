@@ -2,32 +2,45 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+html {
+  scroll-behavior: smooth;
+  letter-spacing: 1px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+@layer base {
+  body {
+    @apply font-primary bg-body text-white;
+  }
+  .h2 {
+    @apply text-3xl capitalize;
+  }
+  .grad {
+    @apply bg-gradient-to-t from-[#1F2126] to-[#33363D] drop-shadow-2xl;
+  }
+  .btn {
+    @apply  h-[50px] flex justify-center items-center rounded-[8px] px-6 py-[10px] text-sm uppercase font-bold;
+  }
+  .btn-accent {
+    @apply bg-accent  hover:bg-accent-hover transition-all;
+  }
+  .input {
+    @apply h-[50px] rounded-[8px] w-full outline-none px-6 text-primary;
   }
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+
+/* width */
+::-webkit-scrollbar {
+  width: 8px;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent;
+  backdrop-filter: blur(20px);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(transparent, #E21818, transparent);
 }

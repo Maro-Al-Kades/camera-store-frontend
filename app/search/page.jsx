@@ -1,41 +1,47 @@
 "use client";
 
-import CategroyNav from "../../components/Category/CategroyNav";
+import React, { Suspense, useEffect, useState } from "react"; // Import Suspense
+import CategoryNav from "../../components/Category/CategroyNav";
 import Product from "../../components/Products/Product";
 import useFetch from "../../hooks/useFetch";
-import { useSearchParams } from "next/navigation";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation"; // Corrected import
 
-function Search() {
+function SearchContent() {
   const router = useRouter();
-  const searchParams = new useSearchParams(router.search);
-  const searchTerm = searchParams.get("query");
+  // Initialize searchTerm state
+  const [searchTerm, setSearchTerm] = useState('');
 
-  // console.log(searchTerm);
+  // Use useEffect to set searchTerm when router.query is updated
+  useEffect(() => {
+    // Check both if router and router.query are defined
+    if (router && router.query && router.query.query) {
+      setSearchTerm(router.query.query);
+    }
+  }, [router, router.query]);
+  
 
   const { data } = useFetch(
-    `/products?populate=*&filters[title][$contains]=${searchTerm}`
+    `/products?populate=*&filters[title][$contains=${searchTerm}]`
   );
-  // console.log(data);
 
   return (
     <div className="mb-[30px] pt-44 md:pt-4 xl:pt-0">
       <div className="container mx-auto">
         <div className="flex gap-x-[30px]">
-          <CategroyNav />
+          <CategoryNav />
 
           <div className="">
-            {/* title */}
+            {/* Conditional rendering based on searchTerm */}
             <div className="py-3 text-xl uppercase text-center lg:text-left">
               {data?.length > 0
-                ? `${data.length} results for ${searchTerm}`
-                : `no results for ${searchTerm}`}
+                ? `Results for '${searchTerm}'`
+                : searchTerm ? `No results for '${searchTerm}'` : 'Enter a search term'}
             </div>
             {/* Products Grid */}
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-[15px] md:gap-[30px]">
-              {data?.map((product) => {
-                return <Product product={product} key={product.id} />;
-              })}
+              {data?.map((product) => (
+                <Product product={product} key={product.id} />
+              ))}
             </div>
           </div>
         </div>
@@ -44,6 +50,12 @@ function Search() {
   );
 }
 
-export default Search;
+function Search() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <SearchContent />
+    </Suspense>
+  );
+}
 
-// Thanks God Jesus for everything
+export default Search;
